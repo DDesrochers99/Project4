@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, Navigate } from 'react-router-dom';
 import { getUser } from '../../utilities/users-service';
 import './App.css';
 import AuthPage from '../AuthPage/AuthPage';
@@ -25,6 +25,7 @@ export default function App() {
                   element={<NewOrderPage user={user} setUser={setUser} />}
                 />
                 <Route path="/orders" element={<OrderHistoryPage />} />
+                <Route path="/*" element={<Navigate to="/orders/new" />} />
               </Routes>
             </>
           ) : (
