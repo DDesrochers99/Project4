@@ -2,7 +2,7 @@ require("dotenv").config();
 require("./config/database");
 
 const Category = require("./models/category");
-const Item = require("./models/item");
+const Product = require("./models/product");
 
 
 (async function () {
@@ -14,8 +14,8 @@ const Item = require("./models/item");
     { name: "Random", sortOrder: 40 },
   ]);
 
-  await Item.deleteMany({});
-  const items = await Item.create([
+  await Product.deleteMany({});
+  const products = await Product.create([
     {
       name: "CEN 450 Bumper",
       description:
@@ -64,14 +64,15 @@ const Item = require("./models/item");
     },
     {
       name: "Table side holder",
-      description: "This is a clamp to attach to the side of the table to hold a purse or grocery bags or anything else you can think of!",
+      description:
+        "This is a clamp to attach to the side of the table to hold a purse or grocery bags or anything else you can think of!",
       imgUrl: "https://imgur.com/MkWfjUc",
       category: categories[3],
       price: 4.95,
     },
   ]);
 
-  console.log(items);
+  console.log(products);
 
   process.exit();
 })();

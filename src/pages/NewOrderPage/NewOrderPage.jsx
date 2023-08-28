@@ -1,5 +1,10 @@
+import LineProduct from "../../components/LineProduct/LineProduct";
+
 export default function NewOrderPage() {
   return (
-    <h1>NewOrderPage</h1>
+    <main>
+      <LineProduct />
+      <h1>NewOrderPage</h1>
+    </main>
   );
 }
