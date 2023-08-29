@@ -70,6 +70,14 @@ const Product = require("./models/product");
       category: categories[3],
       price: 4.95,
     },
+    {
+      name: "DnD PlaeceHolder",
+      description:
+        "This is a Front Bumper for the CEN F450. 3D Printed in a sparkle black PLA",
+      imgUrl: "https://imgur.com/bVZbRcV",
+      category: categories[2],
+      price: 15.95,
+    },
   ]);
 
   console.log(products);

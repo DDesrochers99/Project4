@@ -1,0 +1,20 @@
+
+
+.CategoryList {
+  list-style-type: none;
+  display: flex; 
+  justify-content: center; 
+}
+
+.category-item {
+  cursor: pointer;
+  padding: 10px;
+  border: 2px solid #ccc;
+  margin: 5px;
+  border-radius: 4px;
+}
+
+.category-item.active {
+  background-color: #285675;
+  color: white;
+}

@@ -20,7 +20,6 @@ function NewOrderPage() {
 
   return (
     <div>
-      <h1>Categories List</h1>
       <CategoryList
         categories={categoriesRef.current}
         activeCat={activeCat}
