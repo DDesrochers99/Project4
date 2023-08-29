@@ -1,7 +1,7 @@
 import React from "react";
-import "./ProductList.css"
+import "./ProductList.css";
 
-function ProductList({ products }) {
+function ProductList({ products, handleAddToCart }) {
   return (
     <div className="ProductList">
       <div className="card-container">
@@ -17,6 +17,9 @@ function ProductList({ products }) {
               <p className="card-description">{product.description}</p>
               <p>Category: {product.category.name}</p>
               <p>Price: ${product.price}</p>
+              <button onClick={() => handleAddToCart(product._id)}>
+                Add to Cart
+              </button>
             </div>
           </div>
         ))}

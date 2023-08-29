@@ -2,13 +2,15 @@ import React, { useState, useEffect, useRef } from "react";
 import * as productsAPI from "../../utilities/product-api";
 import CategoryList from "../../components/CategoryList/CategoryList";
 import ProductList from "../../components/ProductList/ProductList";
+import Cart from "../../components/Cart/Cart";
 import Carousel from "react-bootstrap/Carousel";
-import "./NewOrderPage.css"
+import "./NewOrderPage.css";
 
 function NewOrderPage() {
   const [allProducts, setAllProducts] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [activeCat, setActiveCat] = useState("");
+  const [cart, setCart] = useState([]); // <-- New cart state
   const categoriesRef = useRef([]);
 
   useEffect(() => {
@@ -34,6 +36,11 @@ function NewOrderPage() {
     }
   }, [activeCat, allProducts]);
 
+  // Function to handle adding items to the cart
+  const handleAddToCart = (item) => {
+    setCart((prevCart) => [...prevCart, item]);
+  };
+
   return (
     <div>
       <Carousel interval={3000} prevLabel="" nextLabel="">
@@ -51,13 +58,16 @@ function NewOrderPage() {
           </Carousel.Item>
         ))}
       </Carousel>
-
       <CategoryList
         categories={categoriesRef.current}
         activeCat={activeCat}
         setActiveCat={setActiveCat}
       />
-      <ProductList products={filteredProducts} />
+      <ProductList
+        products={filteredProducts}
+        handleAddToCart={handleAddToCart}
+      />
+      <Cart cart={cart} /> 
     </div>
   );
 }
