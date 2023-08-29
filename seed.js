@@ -20,7 +20,7 @@ const Product = require("./models/product");
       name: "CEN 450 Bumper",
       description:
         "This is a Front Bumper for the CEN F450. 3D Printed in a sparkle black PLA",
-      imgUrl: "https://imgur.com/bVZbRcV",
+      imgUrl: "https://i.imgur.com/YLHUqkM.jpg",
       category: categories[1],
       price: 15.95,
     },
@@ -28,14 +28,14 @@ const Product = require("./models/product");
       name: "HeadSet Wall Mount",
       description:
         "This is a wall mount for any gaming or pc head set. Features a extra hanger for the wires",
-      imgUrl: "https://imgur.com/hQ5UFXO",
+      imgUrl: "https://i.imgur.com/hQ5UFXO.jpg",
       category: categories[3],
       price: 10.95,
     },
     {
       name: "Blink 360 Mount",
       description: "This is a wall mount for the blink mini 360 camera",
-      imgUrl: "https://imgur.com/9lAi6ID",
+      imgUrl: "https://i.imgur.com/9lAi6ID.jpg",
       category: categories[0],
       price: 13.95,
     },
@@ -43,7 +43,7 @@ const Product = require("./models/product");
       name: "Bottle Wall Mount",
       description:
         "This is a mount you can either screw or you sticky tape with. It is made to hold most spray bottles. Comes in a color changing purple to pink with heat PLA",
-      imgUrl: "https://imgur.com/9lAi6ID",
+      imgUrl: "https://i.imgur.com/ObMCOqY.jpg",
       category: categories[0],
       price: 6.95,
     },
@@ -51,14 +51,14 @@ const Product = require("./models/product");
       name: "Mountain Key Holder",
       description:
         "This is a 4 ring key holder with mountains on top. color can be changed by request",
-      imgUrl: "https://imgur.com/JPkwFKr",
+      imgUrl: "https://i.imgur.com/JPkwFKr.jpg",
       category: categories[0],
       price: 13.95,
     },
     {
       name: "Wasp bottle Trap",
       description: "This is a wasp trap made to go on a standard size bottle",
-      imgUrl: "https://imgur.com/1xpkcjf",
+      imgUrl: "https://i.imgur.com/RswZRIO.jpg",
       category: categories[0],
       price: 4.95,
     },
@@ -66,7 +66,7 @@ const Product = require("./models/product");
       name: "Table side holder",
       description:
         "This is a clamp to attach to the side of the table to hold a purse or grocery bags or anything else you can think of!",
-      imgUrl: "https://imgur.com/MkWfjUc",
+      imgUrl: "https://i.imgur.com/MkWfjUc.jpg",
       category: categories[3],
       price: 4.95,
     },

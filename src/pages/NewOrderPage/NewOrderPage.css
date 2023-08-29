@@ -1,0 +1,16 @@
+.carousel-image {
+  max-width: 80%;
+  height: auto;
+
+  width: 30%;
+
+  @media (max-width: 768px) {
+    width: 80%;
+  }
+}
+
+.carousel-caption {
+  color: black; /* Set the text color to black */
+  background-color: rgba(255, 255, 255, 0.7); /* Optional: Add a semi-transparent background */
+  padding: 10px;
+}
