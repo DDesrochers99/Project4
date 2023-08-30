@@ -1,8 +1,9 @@
 import React, { useState, useEffect, useRef } from "react";
 import * as productsAPI from "../../utilities/product-api";
+import * as ordersAPI from "../../utilities/order-api";
 import CategoryList from "../../components/CategoryList/CategoryList";
 import ProductList from "../../components/ProductList/ProductList";
-import Cart from "../../components/Cart/Cart";
+import  Cart  from "../../components/Cart/Cart";
 import Carousel from "react-bootstrap/Carousel";
 import "./NewOrderPage.css";
 
@@ -36,10 +37,42 @@ function NewOrderPage() {
     }
   }, [activeCat, allProducts]);
 
-  // Function to handle adding items to the cart
-  const handleAddToCart = (item) => {
-    setCart((prevCart) => [...prevCart, item]);
-  };
+const handleCheckout = async () => {
+  try {
+    await ordersAPI.checkout();
+    setCart([]);
+    alert("Thank you for your order!");
+  } catch (error) {
+    console.error("Error during checkout:", error);
+    alert("An error occurred during checkout. Please try again later.");
+  }
+};
+
+const handleAddToCart = (product) => {
+  const existingProduct = cart.find((item) => item._id === product._id);
+
+  if (existingProduct) {
+    const updatedCart = cart.map((item) =>
+      item._id === product._id ? { ...item, qty: item.qty + 1 } : item
+    );
+    setCart(updatedCart);
+  } else {
+    setCart([...cart, { ...product, qty: 1 }]);
+  }
+};
+const handleQtyChange = (productId, newQty) => {
+  const parsedQty = parseInt(newQty, 10);
+  const validQty = isNaN(parsedQty) ? 1 : Math.max(parsedQty, 1);
+  const updatedCart = cart.map((product) =>
+    product._id === productId ? { ...product, qty: validQty } : product
+  );
+  setCart(updatedCart);
+};
+const handleRemoveItem = (productId) => {
+  const updatedCart = cart.filter((product) => product._id !== productId);
+  setCart(updatedCart);
+};
+
 
   return (
     <div>
@@ -67,7 +100,12 @@ function NewOrderPage() {
         products={filteredProducts}
         handleAddToCart={handleAddToCart}
       />
-      <Cart cart={cart} /> 
+      <Cart
+        cart={cart}
+        handleQtyChange={handleQtyChange}
+        handleRemoveItem={handleRemoveItem}
+        handleCheckout={handleCheckout}
+      />
     </div>
   );
 }

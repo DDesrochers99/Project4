@@ -17,7 +17,7 @@ function ProductList({ products, handleAddToCart }) {
               <p className="card-description">{product.description}</p>
               <p>Category: {product.category.name}</p>
               <p>Price: ${product.price}</p>
-              <button onClick={() => handleAddToCart(product._id)}>
+              <button onClick={() => handleAddToCart(product)}>
                 Add to Cart
               </button>
             </div>
