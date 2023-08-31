@@ -11,7 +11,7 @@ function NewOrderPage() {
   const [allProducts, setAllProducts] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [activeCat, setActiveCat] = useState("");
-  const [cart, setCart] = useState([]); // <-- New cart state
+  const [cart, setCart] = useState([]);
   const categoriesRef = useRef([]);
 
   useEffect(() => {
@@ -26,6 +26,7 @@ function NewOrderPage() {
     getProducts();
   }, []);
 
+  
   useEffect(() => {
     if (activeCat) {
       const filteredProducts = allProducts.filter(
@@ -37,18 +38,24 @@ function NewOrderPage() {
     }
   }, [activeCat, allProducts]);
 
-const handleCheckout = async () => {
+
+async function handleCheckout() {
   try {
-    await ordersAPI.checkout(); 
-    setCart([]); 
+    const formattedLineProducts = cart.map((product) => ({
+      productId: product._id,
+      newQty: product.qty,
+    }));
+    await ordersAPI.checkout(formattedLineProducts);
+    setCart([]);
   } catch (error) {
     console.error("Error during checkout:", error);
   }
-};
+}
+
+
 
 const handleAddToCart = (product) => {
   const existingProduct = cart.find((item) => item._id === product._id);
-
   if (existingProduct) {
     const updatedCart = cart.map((item) =>
       item._id === product._id ? { ...item, qty: item.qty + 1 } : item
@@ -58,6 +65,7 @@ const handleAddToCart = (product) => {
     setCart([...cart, { ...product, qty: 1 }]);
   }
 };
+
 const handleQtyChange = (productId, newQty) => {
   const parsedQty = parseInt(newQty, 10);
   const validQty = isNaN(parsedQty) ? 1 : Math.max(parsedQty, 1);

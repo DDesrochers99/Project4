@@ -1,6 +1,7 @@
 import React from "react";
 import ListGroup from "react-bootstrap/ListGroup";
-import Button from "react-bootstrap/Button"; // Import the Button component
+import Button from "react-bootstrap/Button";
+import LineProduct from "../LineProduct/LineProduct";
 import "./Cart.css";
 
 function Cart({ cart, handleQtyChange, handleRemoveItem, handleCheckout }) {
@@ -10,7 +11,8 @@ function Cart({ cart, handleQtyChange, handleRemoveItem, handleCheckout }) {
       <ListGroup>
         {cart.map((product) => (
           <ListGroup.Item key={product._id}>
-            SKU: {product._id.substring(product._id.length - 6)} <br />
+            <span>SKU: {product._id.substring(product._id.length - 6)} </span>{" "}
+            <br />
             {product.name} <br />
             <input
               type="number"
@@ -24,12 +26,16 @@ function Cart({ cart, handleQtyChange, handleRemoveItem, handleCheckout }) {
               style: "currency",
               currency: "USD",
             })}
+            <LineProduct product={product} />
           </ListGroup.Item>
         ))}
       </ListGroup>
-      <Button variant="primary" onClick={handleCheckout}>
-        Checkout
-      </Button>
+      <button
+        className="btn-sm"
+        onClick={handleCheckout}
+      >
+        CHECKOUT
+      </button>
     </div>
   );
 }

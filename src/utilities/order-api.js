@@ -10,6 +10,14 @@ export function setProductQtyInCart(productId, newQty) {
   return sendRequest(`${BASE_URL}/cart/qty`, "PUT", { productId, newQty });
 }
 
-export function checkout() {
-  return sendRequest(`${BASE_URL}/cart/checkout`, "POST");
+export function checkout(lineProducts) {
+  return sendRequest(`${BASE_URL}/cart/checkout`, "POST", { lineProducts });
+}
+
+export function getOrderById(orderId) {
+  return sendRequest(`${BASE_URL}/${orderId}`);
+}
+
+export function getOrderHistory() {
+  return sendRequest(`${BASE_URL}/history`);
 }

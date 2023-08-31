@@ -12,9 +12,7 @@ const lineProductSchema = new Schema(
   }
 );
 
-lineProductSchema.virtual("extPrice").get(function () {
-  return this.qty * this.product.price;
-});
+
 
 const orderSchema = new Schema(
   {
@@ -32,23 +30,6 @@ const orderSchema = new Schema(
   }
 );
 
-orderSchema.virtual("orderTotal").get(function () {
-  return this.lineProducts.reduce(
-    (total, lineProduct) => total + lineProduct.extPrice,
-    0
-  );
-});
-
-orderSchema.virtual("orderQty").get(function () {
-  return this.lineProducts.reduce(
-    (total, lineProduct) => total + lineProduct.qty,
-    0
-  );
-});
-
-orderSchema.virtual("orderId").get(function () {
-  return this.id.slice(-6).toUpperCase();
-});
 
 orderSchema.statics.getCart = function (userId) {
   return this.findOneAndUpdate(
@@ -58,20 +39,37 @@ orderSchema.statics.getCart = function (userId) {
   );
 };
 
+// models/order.js
+
 orderSchema.methods.addProductToCart = async function (productId) {
-  const cart = this;
-  const lineProduct = cart.lineProducts.find((lp) =>
-    lp.product._id.equals(productId)
-  );
-  if (lineProduct) {
-    lineProduct.qty += 1;
-  } else {
-    const Product = mongoose.model("Product");
-    const product = await Product.findById(productId);
-    cart.lineProducts.push({ product });
+  try {
+    const cart = this;
+    console.log("Adding product to cart:", productId);
+    
+    const lineProduct = cart.lineProducts.find((lp) =>
+      lp.product._id.equals(productId)
+    );
+
+    if (lineProduct) {
+      console.log("Found existing lineProduct:", lineProduct);
+      lineProduct.qty += 1;
+    } else {
+      const Product = mongoose.model("Product");
+      const product = await Product.findById(productId);
+      console.log("Adding new product to cart:", product);
+      cart.lineProducts.push({ product });
+    }
+
+    const savedCart = await cart.save();
+    console.log("Cart after modification:", savedCart);
+    return savedCart;
+  } catch (error) {
+    console.error("Error in addProductToCart:", error);
+    throw error;
   }
-  return cart.save();
-};
+}
+
+
 
 orderSchema.methods.setProductQty = function (productId, newQty) {
   const cart = this;
