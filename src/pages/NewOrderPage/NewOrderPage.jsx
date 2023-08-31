@@ -39,12 +39,10 @@ function NewOrderPage() {
 
 const handleCheckout = async () => {
   try {
-    await ordersAPI.checkout();
-    setCart([]);
-    alert("Thank you for your order!");
+    await ordersAPI.checkout(); 
+    setCart([]); 
   } catch (error) {
     console.error("Error during checkout:", error);
-    alert("An error occurred during checkout. Please try again later.");
   }
 };
 
