@@ -4,7 +4,9 @@ import Button from "react-bootstrap/Button";
 import LineProduct from "../LineProduct/LineProduct";
 import "./Cart.css";
 
-function Cart({ cart, handleQtyChange, handleRemoveItem, handleCheckout }) {
+function Cart({ cart, handleQtyChange, handleRemoveItem, handleCheckout, total }) {
+
+
   return (
     <div className="Cart">
       <h2>Your Cart</h2>
@@ -26,18 +28,22 @@ function Cart({ cart, handleQtyChange, handleRemoveItem, handleCheckout }) {
               style: "currency",
               currency: "USD",
             })}
-            <LineProduct product={product} />
           </ListGroup.Item>
         ))}
       </ListGroup>
-      <button
-        className="btn-sm"
-        onClick={handleCheckout}
-      >
+      <div className="Total">
+        <strong>Total: </strong>
+        {total.toLocaleString("en-US", {
+          style: "currency",
+          currency: "USD",
+        })}
+      </div>
+      <button className="btn-sm" onClick={handleCheckout}>
         CHECKOUT
       </button>
     </div>
   );
 }
+
 
 export default Cart;

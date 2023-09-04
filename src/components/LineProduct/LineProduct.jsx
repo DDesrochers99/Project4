@@ -10,6 +10,7 @@ function LineProduct({ product }) {
       <div className="flex-ctr-ctr">{product.price}</div>
       <div className="flex-ctr-ctr flex-col">
         <span className="align-ctr">{product.name}</span>
+        <span className="align-ctr">{product.qty}</span>
       </div>
     </div>
   );

@@ -26,12 +26,23 @@ async function setProductQtyInCart(req, res) {
 
 async function checkout(req, res) {
   try {
+    console.log(req.body.lineProducts);
     const cart = await Order.getCart(req.user._id);
+    console.log("//////////////////")
+    console.log(cart)
     cart.isPaid = true;
+
+    const total = req.body.lineProducts.reduce((accumulator, lineProduct) => {
+      console.log("---------------")
+      return accumulator + lineProduct.price * lineProduct.newQty;
+    }, 0);
+
+    cart.total = total;
+
     if (req.body.lineProducts) {
       cart.lineProducts = req.body.lineProducts;
     }
-    cart.total= 25
+
     await cart.save();
     console.log("After checkout:", cart);
     res.json(cart);

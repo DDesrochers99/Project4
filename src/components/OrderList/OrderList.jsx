@@ -6,13 +6,9 @@ function OrderHistoryPage() {
   useEffect(() => {
     const fetchOrders = async () => {
       try {
-        console.log("step 1");
         const response = await fetch("/api/orders");
-        console.log(response);
         const data = await response.json();
-        console.log(data);
         setOrders(data);
-        console.log(orders);
       } catch (error) {
         console.error("Error fetching orders:", error);
       }

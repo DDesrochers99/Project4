@@ -34,7 +34,7 @@ const orderSchema = new Schema(
 
 orderSchema.statics.getCart = function (userId) {
   return this.findOneAndUpdate(
-    { user: userId, isPaid: false },
+    { user: userId, isPaid: false, total: 2 },
     { user: userId },
     { upsert: true, new: true }
   );
