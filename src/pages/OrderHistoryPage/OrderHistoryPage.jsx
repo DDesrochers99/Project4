@@ -1,4 +1,5 @@
 import { checkToken } from '../../utilities/users-service';
+import OrderList from "../../components/OrderList/OrderList"
 
 export default function OrderHistoryPage() {
   async function handleCheckToken() {
@@ -9,7 +10,7 @@ export default function OrderHistoryPage() {
   return (
     <>
       <h1>OrderHistoryPage</h1>
-
+      <OrderList />
     </>
   );
 }

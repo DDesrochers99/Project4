@@ -1,7 +1,6 @@
 import React from "react";
 
 function LineProduct({ product }) {
-
   if (!product || !product.price) {
     return null;
   }

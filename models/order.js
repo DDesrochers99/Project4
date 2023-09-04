@@ -23,6 +23,7 @@ const orderSchema = new Schema(
     },
     lineProducts: [lineProductSchema],
     isPaid: { type: Boolean, default: false },
+    total: { type: Number },
   },
   {
     timestamps: true,

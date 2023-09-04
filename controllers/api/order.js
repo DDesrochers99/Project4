@@ -23,9 +23,6 @@ async function setProductQtyInCart(req, res) {
 }
 
 
-// controllers/api/order.js
-
-// controllers/api/order.js
 
 async function checkout(req, res) {
   try {
@@ -34,7 +31,7 @@ async function checkout(req, res) {
     if (req.body.lineProducts) {
       cart.lineProducts = req.body.lineProducts;
     }
-
+    cart.total= 25
     await cart.save();
     console.log("After checkout:", cart);
     res.json(cart);
@@ -56,9 +53,21 @@ async function getOrderById(req, res) {
   }
 }
 
+async function getAll(req, res) {
+  try {
+    const orders = await Order.find();
+    res.json(orders) 
+  }
+  catch (error) {
+    console.error("Error fetching order in getAll", error);
+    res.status(500).json({ error: "An error occurred while fetching order." });
+  }
+}
+
 module.exports = {
   addToCart,
   setProductQtyInCart,
   checkout,
   getOrderById,
+  getAll,
 };
