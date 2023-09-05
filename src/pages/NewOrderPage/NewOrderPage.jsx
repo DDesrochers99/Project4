@@ -95,7 +95,6 @@ function NewOrderPage({ user, setUser }) {
 
   return (
     <div>
-      <UserLogOut user={user} setUser={setUser} />
       <Carousel interval={3000} prevLabel="" nextLabel="">
         {filteredProducts.map((product, index) => (
           <Carousel.Item key={index}>

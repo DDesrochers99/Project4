@@ -5,6 +5,7 @@ import './App.css';
 import AuthPage from '../AuthPage/AuthPage';
 import NewOrderPage from '../NewOrderPage/NewOrderPage';
 import OrderHistoryPage from '../OrderHistoryPage/OrderHistoryPage';
+import AdminPage from '../AdminPage/AdminPage';
 import { Container, Row } from 'react-bootstrap';
 import BootstrapNavbar from '../../components/BootstrapNavbar/BootstrapNavbar';
 
@@ -25,7 +26,8 @@ export default function App() {
                   element={<NewOrderPage user={user} setUser={setUser} />}
                 />
                 <Route path="/orders" element={<OrderHistoryPage />} />
-                <Route path="/*" element={<Navigate to="/orders/new" />} />
+                <Route path="/admin-page" element={<AdminPage/>} />
+                {/* <Route path="/*" element={<Navigate to="/orders/new" />} /> */}
               </Routes>
             </>
           ) : (

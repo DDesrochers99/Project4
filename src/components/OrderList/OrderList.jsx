@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { Container, Row, Col, Table, Spinner } from "react-bootstrap";
 
 function OrderHistoryPage() {
   const [orders, setOrders] = useState([]);
@@ -17,24 +18,42 @@ function OrderHistoryPage() {
     fetchOrders();
   }, []);
 
+  // Function to format a number as US currency
+  const formatAsUSCurrency = (number) => {
+    return new Intl.NumberFormat("en-US", {
+      style: "currency",
+      currency: "USD",
+    }).format(number);
+  };
+
   return (
-    <>
-      {!orders ? (
-        <div>Loading. . .</div>
+    <Container>
+      <h1 className="mt-5">Order History</h1>
+      {orders.length === 0 ? (
+        <Spinner animation="border" variant="primary" />
       ) : (
-        <div>
-          <h1>Order History</h1>
-          <ul>
-            {orders.map((order) => (
-              <li key={order._id}>
-                <div>Order ID: {order._id}</div>
-                <div>Total: {order.total}</div>
-              </li>
-            ))}
-          </ul>
-        </div>
+        <Row>
+          <Col>
+            <Table striped bordered hover>
+              <thead>
+                <tr>
+                  <th>Order ID</th>
+                  <th>Total</th>
+                </tr>
+              </thead>
+              <tbody>
+                {orders.map((order) => (
+                  <tr key={order._id}>
+                    <td>{order._id}</td>
+                    <td>{formatAsUSCurrency(order.total)}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </Table>
+          </Col>
+        </Row>
       )}
-    </>
+    </Container>
   );
 }
 

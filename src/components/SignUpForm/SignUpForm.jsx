@@ -1,7 +1,7 @@
-import { Component } from "react";
+import React, { Component } from "react";
 import { signUp } from "../../utilities/users-service";
-
-import { Button, Form } from "react-bootstrap";
+import { Button, Form, Container, Row, Col } from "react-bootstrap";
+import "./SignUpForm.css"; 
 
 export default class SignUpForm extends Component {
   state = {
@@ -24,14 +24,9 @@ export default class SignUpForm extends Component {
     try {
       const { name, email, password } = this.state;
       const formData = { name, email, password };
-      // The promise returned by the signUp service
-      // method will resolve to the user object included
-      // in the payload of the JSON Web Token (JWT)
       const user = await signUp(formData);
       this.props.setUser(user);
     } catch {
-      // An error occurred
-      // Probably due to a duplicate email
       this.setState({ error: "Sign Up Failed - Try Again" });
     }
   };
@@ -39,56 +34,67 @@ export default class SignUpForm extends Component {
   render() {
     const disable = this.state.password !== this.state.confirm;
     return (
-      <Form autoComplete="off" onSubmit={this.handleSubmit}>
-        <Form.Group className="mb-3" controlId="formBasicEmail">
-          <Form.Label>Name</Form.Label>
-          <Form.Control
-            type="text"
-            name="name"
-            placeholder="Name"
-            value={this.state.name}
-            onChange={this.handleChange}
-            required
-          />
-        </Form.Group>
-        <Form.Group className="mb-3" controlId="formBasicEmail">
-          <Form.Label>Email address</Form.Label>
-          <Form.Control
-            type="email"
-            name="email"
-            placeholder="Enter email"
-            value={this.state.email}
-            onChange={this.handleChange}
-            required
-          />
-        </Form.Group>
+      <Container className="form-container">
+        <Row className="justify-content-center">
+          <Col md={6}>
+            <Form autoComplete="off" onSubmit={this.handleSubmit}>
+              {this.state.error && (
+                <p className="text-danger text-center">{this.state.error}</p>
+              )}
+              <Form.Group controlId="formBasicName" className="form-group">
+                <Form.Label>Name</Form.Label>
+                <Form.Control
+                  type="text"
+                  name="name"
+                  placeholder="Name"
+                  value={this.state.name}
+                  onChange={this.handleChange}
+                  required
+                />
+              </Form.Group>
+              <Form.Group controlId="formBasicEmail" className="form-group">
+                <Form.Label>Email address</Form.Label>
+                <Form.Control
+                  type="email"
+                  name="email"
+                  placeholder="Enter email"
+                  value={this.state.email}
+                  onChange={this.handleChange}
+                  required
+                />
+              </Form.Group>
 
-        <Form.Group className="mb-3" controlId="formBasicPassword">
-          <Form.Label>Password</Form.Label>
-          <Form.Control
-            type="password"
-            name="password"
-            placeholder="Password"
-            value={this.state.password}
-            onChange={this.handleChange}
-            required
-          />
-        </Form.Group>
-        <Form.Group className="mb-3" controlId="formBasicPassword">
-          <Form.Label>Confirm</Form.Label>
-          <Form.Control
-            type="password"
-            name="confirm"
-            placeholder="Confirm password"
-            value={this.state.confirm}
-            onChange={this.handleChange}
-            required
-          />
-        </Form.Group>
-        <Button variant="primary" type="submit">
-          Submit
-        </Button>
-      </Form>
+              <Form.Group controlId="formBasicPassword" className="form-group">
+                <Form.Label>Password</Form.Label>
+                <Form.Control
+                  type="password"
+                  name="password"
+                  placeholder="Password"
+                  value={this.state.password}
+                  onChange={this.handleChange}
+                  required
+                />
+              </Form.Group>
+              <Form.Group controlId="formBasicConfirm" className="form-group">
+                <Form.Label>Confirm Password</Form.Label>
+                <Form.Control
+                  type="password"
+                  name="confirm"
+                  placeholder="Confirm password"
+                  value={this.state.confirm}
+                  onChange={this.handleChange}
+                  required
+                />
+              </Form.Group>
+              <div className="text-center">
+                <Button variant="primary" type="submit" disabled={disable}>
+                  Submit
+                </Button>
+              </div>
+            </Form>
+          </Col>
+        </Row>
+      </Container>
     );
   }
 }
