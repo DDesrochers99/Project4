@@ -8,7 +8,9 @@ function truncateText(text, maxLength) {
   return text.substring(0, maxLength) + "...";
 }
 
-function AdminProduct({ products, handleDelete, handleUpdate }) {
+function AdminProduct({ products, handleDeleteProduct, handleUpdateProduct }) {
+  const updatedData = {}; // Define updatedData here or set it based on your requirements
+
   return (
     <div className="AdminProduct">
       <table className="table table-bordered">
@@ -33,14 +35,16 @@ function AdminProduct({ products, handleDelete, handleUpdate }) {
                   <button
                     type="button"
                     className="btn btn-danger"
-                    onClick={() => handleDelete(product.id)} // Add the delete functionality
+                    onClick={() => handleDeleteProduct(product._id)}
                   >
                     Delete
                   </button>
                   <button
                     type="button"
                     className="btn btn-primary"
-                    onClick={() => handleUpdate(product.id)} // Add the update functionality
+                    onClick={() =>
+                      handleUpdateProduct(product._id, updatedData)
+                    }
                   >
                     Update
                   </button>

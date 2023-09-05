@@ -7,8 +7,8 @@ router.get("/", productsCtrl.index);
 
 router.post("/", productsCtrl.createProduct);
 
-// router.put("/:id", productsCtrl.updateProduct);
-// router.delete("/:id", productsCtrl.deleteProduct);
+router.put("/:id", productsCtrl.updateProduct);
+router.delete("/:id", productsCtrl.deleteProduct);
 
 
 module.exports = router;

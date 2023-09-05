@@ -22,7 +22,7 @@ function AdminPage() {
     getProducts();
   }, []);
 
-   const handleDeleteProduct = async (productId) => {
+ async function handleDeleteProduct(productId) {
     try {
       // Make a DELETE request using AJAX
       const response = await fetch(`/api/products/${productId}`, {
@@ -43,7 +43,7 @@ function AdminPage() {
     }
   };
 
-  const handleUpdateProduct = async (productId, updatedData) => {
+  async function handleUpdateProduct(productId, updatedData) {
     try {
       // Make a PUT or PATCH request using AJAX
       const response = await fetch(`/api/products/${productId}`, {

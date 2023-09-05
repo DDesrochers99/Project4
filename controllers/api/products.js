@@ -6,6 +6,9 @@ module.exports = {
   show,
   createProduct,
   getAllProducts,
+  getProductById,
+  deleteProduct,
+  updateProduct,
 };
 
 async function getAllProducts(req, res) {
@@ -45,7 +48,6 @@ async function createProduct (req, res) {
       return res.status(400).json({ error: "Category not found" });
     }
 
-    // Create a new product instance
     const newProduct = new Product({
       name,
       description,
@@ -54,7 +56,6 @@ async function createProduct (req, res) {
       price,
     });
 
-    // Save the product to the database
     await newProduct.save();
 
     res.status(201).json({
@@ -70,8 +71,7 @@ async function createProduct (req, res) {
 
 
 
-// Retrieve a single product by ID
-exports.getProductById = async (req, res) => {
+ async function getProductById (req, res) {
   try {
     const product = await Product.findById(req.params.id);
     res.json(product);
@@ -81,7 +81,7 @@ exports.getProductById = async (req, res) => {
 };
 
 
-exports.deleteProduct = async (req, res) => {
+ async function deleteProduct(req, res) {
   try {
     const productId = req.params.id;
 
@@ -98,9 +98,7 @@ exports.deleteProduct = async (req, res) => {
     res.status(500).json({ error: "Internal server error" });
   }
 };
-
-// Update a product by ID
-exports.updateProduct = async (req, res) => {
+ async function updateProduct (req, res) {
   try {
     const productId = req.params.id;
     const updatedData = req.body; 
