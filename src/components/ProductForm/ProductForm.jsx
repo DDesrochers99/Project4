@@ -1,13 +1,14 @@
 import React, { useState } from "react";
 import { Form, Button } from "react-bootstrap";
+import InputMask from "react-input-mask";
 
-function ProductForm() {
+function ProductForm({ onProductCreated }) {
   const [formData, setFormData] = useState({
     name: "",
     description: "",
     imgUrl: "",
     category: "",
-    price: 0,
+    price: "",
   });
 
   const categories = ["Home", "Remote Control", "DnD", "Random"];
@@ -16,7 +17,7 @@ function ProductForm() {
     const { name, value } = e.target;
     setFormData({
       ...formData,
-      [name]: name === "price" ? parseFloat(value) : value,
+      [name]: value,
     });
   };
 
@@ -32,7 +33,14 @@ function ProductForm() {
       });
 
       if (response.ok) {
-        // Handle success
+        onProductCreated();
+        setFormData({
+          name: "",
+          description: "",
+          imgUrl: "",
+          category: "",
+          price: "",
+        });
       } else {
         // Handle error
       }
@@ -43,7 +51,7 @@ function ProductForm() {
 
   return (
     <Form onSubmit={handleSubmit}>
-        <h4>Add Product</h4>
+      <h3>Add Product</h3>
       <Form.Group controlId="productName">
         <Form.Label>Product Name:</Form.Label>
         <Form.Control
@@ -89,13 +97,17 @@ function ProductForm() {
       </Form.Group>
       <Form.Group controlId="productPrice">
         <Form.Label>Price:</Form.Label>
-        <Form.Control
-          type="number"
+        <InputMask
+          mask="99.99"
+          maskChar=""
           name="price"
+          value={formData.price}
           onChange={handleChange}
-        />
+        >
+          {(inputProps) => <Form.Control {...inputProps} />}
+        </InputMask>
       </Form.Group>
-      <br></br>
+      <br />
       <Button variant="primary" type="submit">
         Create Product
       </Button>

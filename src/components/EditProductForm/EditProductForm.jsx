@@ -1,7 +1,13 @@
 import React, { useState } from "react";
 
 function EditProductForm({ product, onUpdate, onCancel }) {
-  const [updatedData, setUpdatedData] = useState(product);
+  const [updatedData, setUpdatedData] = useState({
+    name: "",
+    description: "",
+    category: "",
+    price: 0, 
+  });
+
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -11,10 +17,13 @@ function EditProductForm({ product, onUpdate, onCancel }) {
   const handleSubmit = (e) => {
     e.preventDefault();
     onUpdate(updatedData);
+    console.log("Form submitted");
   };
+
 
   return (
     <form onSubmit={handleSubmit}>
+      <h3>Edit Product</h3>
       <div className="form-group">
         <label>Name</label>
         <input

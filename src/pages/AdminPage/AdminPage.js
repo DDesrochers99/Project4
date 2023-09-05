@@ -1,13 +1,18 @@
 import React, { useState, useEffect, useRef } from "react";
 import * as productsAPI from "../../utilities/product-api";
-import AddProductForm from "../../components/ProductForm/ProductForm";
 import AdminProduct from "../../components/AdminProduct/AdminProduct";
+import EditProductForm from "../../components/EditProductForm/EditProductForm";
+import ProductForm from "../../components/ProductForm/ProductForm";
 
 function AdminPage() {
   const [allProducts, setAllProducts] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]);
   const categoriesRef = useRef([]);
   const [rerender, setRerender] = useState(false);
+
+  const [isEditing, setIsEditing] = useState(false);
+  const [editProductData, setEditProductData] = useState({});
+  const [showProductForm, setShowProductForm] = useState(true);
 
   useEffect(() => {
     async function getProducts() {
@@ -42,34 +47,17 @@ function AdminPage() {
     }
   }
 
-  async function handleUpdateProduct(productId, updatedData) {
-    console.log("productId:", productId);
-    console.log("updatedData:", updatedData);
-    try {
-      const response = await fetch(`/api/products/${productId}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(updatedData),
-      });
+  const handleUpdateProduct = (productId, data) => {
+    setIsEditing(true);
+    setEditProductData({ productId, ...data });
+    setShowProductForm(false);
+  };
 
-      if (!response.ok) {
-        throw new Error("Error updating product");
-      }
-
-      const updatedProduct = await response.json();
-
-      const updatedProducts = allProducts.map((product) =>
-        product._id === updatedProduct._id ? updatedProduct : product
-      );
-
-      setAllProducts(updatedProducts);
-      setRerender(!rerender);
-    } catch (error) {
-      console.error("Error updating product:", error);
-    }
-  }
+  const handleCancelEdit = () => {
+    setIsEditing(false);
+    setEditProductData({});
+    setShowProductForm(true);
+  };
 
   async function handleCreateProduct(newProductData) {
     try {
@@ -88,16 +76,28 @@ function AdminPage() {
       const createdProduct = await response.json();
 
       setAllProducts([...allProducts, createdProduct]);
-      setRerender(!rerender);
+
+      // Force a re-render by generating a random key
+      setRerenderKey(Math.random());
     } catch (error) {
       console.error("Error creating product:", error);
     }
   }
 
+  const [rerenderKey, setRerenderKey] = useState(0);
+
   return (
-    <div>
-      <h1>Admin Page</h1>
-      <AddProductForm handleCreateProduct={handleCreateProduct} />
+    <div key={rerenderKey}>
+      <h1 className="text-center">Admin Dashboard</h1>
+      {showProductForm ? (
+        <ProductForm handleCreateProduct={handleCreateProduct} />
+      ) : (
+        <EditProductForm
+          product={editProductData}
+          onUpdate={handleUpdateProduct}
+          onCancel={handleCancelEdit}
+        />
+      )}
       <AdminProduct
         products={filteredProducts}
         handleDeleteProduct={handleDeleteProduct}

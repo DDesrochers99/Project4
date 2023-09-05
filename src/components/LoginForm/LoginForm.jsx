@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import * as usersService from "../../utilities/users-service";
 import { Form, Button, Container, Row, Col } from "react-bootstrap";
-import "./LoginForm.css"; // Import the CSS file
+import "./LoginForm.css";
 
 export default function LoginForm({ setUser }) {
   const [credentials, setCredentials] = useState({
