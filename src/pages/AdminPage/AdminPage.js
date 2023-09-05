@@ -6,8 +6,8 @@ import AdminProduct from "../../components/AdminProduct/AdminProduct";
 function AdminPage() {
   const [allProducts, setAllProducts] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]);
-  const [cart, setCart] = useState([]);
   const categoriesRef = useRef([]);
+  const [rerender, setRerender] = useState(false);
 
   useEffect(() => {
     async function getProducts() {
@@ -16,15 +16,13 @@ function AdminPage() {
         ...new Set(products.map((product) => product.category.name)),
       ];
       setAllProducts(products);
-      // Set filteredProducts to allProducts initially
       setFilteredProducts(products);
     }
     getProducts();
-  }, []);
+  }, [rerender]);
 
- async function handleDeleteProduct(productId) {
+  async function handleDeleteProduct(productId) {
     try {
-      // Make a DELETE request using AJAX
       const response = await fetch(`/api/products/${productId}`, {
         method: "DELETE",
       });
@@ -33,21 +31,23 @@ function AdminPage() {
         throw new Error("Error deleting product");
       }
 
-      // If the request is successful, you can update your local state as needed
       const updatedProducts = allProducts.filter(
         (product) => product._id !== productId
       );
+
       setAllProducts(updatedProducts);
+      setRerender(!rerender);
     } catch (error) {
       console.error("Error deleting product:", error);
     }
-  };
+  }
 
   async function handleUpdateProduct(productId, updatedData) {
+    console.log("productId:", productId);
+    console.log("updatedData:", updatedData);
     try {
-      // Make a PUT or PATCH request using AJAX
       const response = await fetch(`/api/products/${productId}`, {
-        method: "PUT", // Use "PUT" or "PATCH" as needed
+        method: "PUT",
         headers: {
           "Content-Type": "application/json",
         },
@@ -58,21 +58,46 @@ function AdminPage() {
         throw new Error("Error updating product");
       }
 
-      // If the request is successful, you can update your local state as needed
       const updatedProduct = await response.json();
+
       const updatedProducts = allProducts.map((product) =>
         product._id === updatedProduct._id ? updatedProduct : product
       );
+
       setAllProducts(updatedProducts);
+      setRerender(!rerender);
     } catch (error) {
       console.error("Error updating product:", error);
     }
-  };
+  }
+
+  async function handleCreateProduct(newProductData) {
+    try {
+      const response = await fetch("/api/products", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(newProductData),
+      });
+
+      if (!response.ok) {
+        throw new Error("Error creating product");
+      }
+
+      const createdProduct = await response.json();
+
+      setAllProducts([...allProducts, createdProduct]);
+      setRerender(!rerender);
+    } catch (error) {
+      console.error("Error creating product:", error);
+    }
+  }
 
   return (
     <div>
       <h1>Admin Page</h1>
-      <AddProductForm />
+      <AddProductForm handleCreateProduct={handleCreateProduct} />
       <AdminProduct
         products={filteredProducts}
         handleDeleteProduct={handleDeleteProduct}

@@ -92,10 +92,10 @@ function ProductForm() {
         <Form.Control
           type="number"
           name="price"
-          value={formData.price.toFixed(2)} 
           onChange={handleChange}
         />
       </Form.Group>
+      <br></br>
       <Button variant="primary" type="submit">
         Create Product
       </Button>

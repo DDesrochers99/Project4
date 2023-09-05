@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import "./AdminProduct.css";
 
 function truncateText(text, maxLength) {
@@ -9,7 +9,11 @@ function truncateText(text, maxLength) {
 }
 
 function AdminProduct({ products, handleDeleteProduct, handleUpdateProduct }) {
-  const updatedData = {}; // Define updatedData here or set it based on your requirements
+  const [updatedData, setUpdatedData] = useState({});
+
+  const handleUpdateDataChange = (key, value) => {
+    setUpdatedData({ ...updatedData, [key]: value });
+  };
 
   return (
     <div className="AdminProduct">
@@ -42,9 +46,10 @@ function AdminProduct({ products, handleDeleteProduct, handleUpdateProduct }) {
                   <button
                     type="button"
                     className="btn btn-primary"
-                    onClick={() =>
-                      handleUpdateProduct(product._id, updatedData)
-                    }
+                    onClick={() => {
+                      handleUpdateProduct(product._id, updatedData);
+                      setUpdatedData({});
+                    }}
                   >
                     Update
                   </button>
