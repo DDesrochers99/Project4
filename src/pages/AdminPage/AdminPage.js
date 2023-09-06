@@ -8,7 +8,6 @@ function AdminPage() {
   const [allProducts, setAllProducts] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]);
   const categoriesRef = useRef([]);
-  const [rerender, setRerender] = useState(false);
 
   const [isEditing, setIsEditing] = useState(false);
   const [editProductData, setEditProductData] = useState({});
@@ -20,11 +19,11 @@ function AdminPage() {
       categoriesRef.current = [
         ...new Set(products.map((product) => product.category.name)),
       ];
-      setAllProducts(products);
       setFilteredProducts(products);
     }
     getProducts();
-  }, [rerender]);
+    setAllProducts(filteredProducts)
+  }, [allProducts]);
 
   async function handleDeleteProduct(productId) {
     try {
@@ -41,13 +40,13 @@ function AdminPage() {
       );
 
       setAllProducts(updatedProducts);
-      setRerender(!rerender);
     } catch (error) {
       console.error("Error deleting product:", error);
     }
   }
 
   const handleUpdateProduct = (productId, data) => {
+    console.log(productId, data)
     setIsEditing(true);
     setEditProductData({ productId, ...data });
     setShowProductForm(false);

@@ -98,25 +98,27 @@ async function createProduct (req, res) {
     res.status(500).json({ error: "Internal server error" });
   }
 };
- async function updateProduct (req, res) {
-  try {
-    const productId = req.params.id;
-    const updatedData = req.body; 
-    const product = await Product.findById(productId);
-    if (!product) {
-      return res.status(404).json({ error: "Product not found" });
-    }
-    await Product.findByIdAndUpdate(productId, updatedData);
-    const updatedProduct = await Product.findById(productId);
+ async function  updateProduct  (productId, updatedData) {
+   const url = `/api/products/${productId}`;
+console.log("Update FUnction", updatedData);
+   fetch(url, {
+     method: "PUT", 
+     headers: {
+       "Content-Type": "application/json",
+     },
+     body: JSON.stringify(updatedData),
+   })
+     .then((response) => {
+       if (!response.ok) {
+         throw new Error("Error updating product");
+       }
+       return response.json();
+     })
+     .then((updatedProduct) => {
+       console.log("Updated product:", updatedProduct);
+     })
+     .catch((error) => {
+       console.error("Error:", error);
+     });
+ };
 
-    res
-      .status(200)
-      .json({
-        message: "Product updated successfully",
-        product: updatedProduct,
-      });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: "Internal server error" });
-  }
-};
