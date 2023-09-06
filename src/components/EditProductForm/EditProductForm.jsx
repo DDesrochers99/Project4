@@ -24,7 +24,7 @@ const [newData, setNewData]= useState ({})
     console.log("handlechang", updatedData); 
   };
 
-  const handleSubmit = (e) => {
+  async function handleSubmit (e)  {
     e.preventDefault();
     setNewData(updatedData);
     // Log data to be sent

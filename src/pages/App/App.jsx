@@ -20,7 +20,6 @@ export default function App() {
           {user ? (
             <>
               <Routes>
-                {/* Route components in here */}
                 <Route
                   path="/orders/new"
                   element={<NewOrderPage user={user} setUser={setUser} />}

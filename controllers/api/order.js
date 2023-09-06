@@ -26,14 +26,11 @@ async function setProductQtyInCart(req, res) {
 
 async function checkout(req, res) {
   try {
-    console.log(req.body.lineProducts);
+    
     const cart = await Order.getCart(req.user._id);
-    console.log("//////////////////")
-    console.log(cart)
     cart.isPaid = true;
 
     const total = req.body.lineProducts.reduce((accumulator, lineProduct) => {
-      console.log("---------------")
       return accumulator + lineProduct.price * lineProduct.newQty;
     }, 0);
 
@@ -44,7 +41,6 @@ async function checkout(req, res) {
     }
 
     await cart.save();
-    console.log("After checkout:", cart);
     res.json(cart);
   } catch (error) {
     console.error("Error during checkout:", error);
